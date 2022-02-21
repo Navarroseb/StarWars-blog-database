@@ -15,9 +15,9 @@ class Users(Base):
     last_name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     password = Column(Integer, nullable=False)
-    characters = relationship("Characters")
-    planets = relationship("Planets")
-    starships = relationship("Starships")
+    
+    
+
 
 class Characters(Base):
     __tablename__ = 'characters'
@@ -26,15 +26,17 @@ class Characters(Base):
     birth_year = Column(Integer())
     gender = Column(String(250))
     height = Column(Integer())
-    users_id = Column(Integer, ForeignKey('users.id'))
-    Users = relationship(Users)
+    
+    
 
 class Favorites_characters(Base):
     __tablename__ = 'favorites_characters'
+    id = Column(Integer, primary_key=True)
     users_id = Column(Integer,ForeignKey("Users"))
     Characters_id = Column(Integer,ForeignKey("Characters"))
-    Users = relationship(Users)
-    Characters = relationship(Characters)
+    user = relationship("users.id")
+    character = relationship("character.id")
+    
 
 class Planets(Base):
     __tablename__ = 'planets'
@@ -44,12 +46,16 @@ class Planets(Base):
     population = Column(Integer)
     terrain = Column(String(250))
     users_id = Column(Integer, ForeignKey('users.id'))
-    Users = relationship(Users)
+    
+    
 
 class Favorites_planets(Base):
     __tablename__ = 'favorites_planets'
+    id = Column(Integer, primary_key=True)
     users_id = Column(Integer, ForeignKey("Users"))
-    Planets_id = Column(Integer, ForeignKey("Planets"))    
+    Planets_id = Column(Integer, ForeignKey("Planets"))
+    user = relationship("users.id")
+    planets = relationship("planets.id")    
 
 class Starships(Base):
     __tablename__ = 'starships'
@@ -59,12 +65,15 @@ class Starships(Base):
     passengers_capacity = Column(Integer)
     pilots = Column(String(250))
     users_id = Column(Integer, ForeignKey("users.id"))
-    Users = relationship(Users)   
+    
 
 class Favorites_starships(Base):
     __tablename__ = 'favorites_starships'
+    id = Column(Integer, primary_key=True)
     users_id = Column(Integer, ForeignKey("Users"))
-    Starships_id = Column(Integer, ForeignKey("Starships"))    
+    Starships_id = Column(Integer, ForeignKey("Starships"))
+    user = relationship("users.id")
+    starships = relationship("starships.id")    
 
 
     def to_dict(self):
